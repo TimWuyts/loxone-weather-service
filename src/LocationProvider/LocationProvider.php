@@ -7,7 +7,7 @@ use Psr\Log\LoggerInterface;
 class LocationProvider
 {
     private $logger;
-    private $dataFile = "/tmp/locations.json";
+    private $dataFile = "/var/www/loxone-weather-service/tmp/locations.json";
 
     public function __construct(LoggerInterface $logger)
     {
@@ -17,7 +17,6 @@ class LocationProvider
     public function getUsers()
     {
         if (file_exists($this->dataFile)) {
-
             $data = json_decode(file_get_contents($this->dataFile), true);
 
             return array_keys($data);
@@ -50,7 +49,7 @@ class LocationProvider
             $data = [];
         }
         $data[$user] = ['lat' => $lat, 'lon' => $lon, 'asl' => $asl];
-
+        
         file_put_contents($this->dataFile, json_encode($data));
     }
 }

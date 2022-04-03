@@ -11,6 +11,7 @@ class WeatherProvider {
     private $weatherbit;
     private $openweathermap;
     private $logger;
+    private $dataFile = "/var/www/loxone-weather-service/tmp/weather.json";
 
     public function __construct(LocationProvider $locationProvider, Weatherbit $weatherbit, OpenWeatherMap $openWeatherMap, LoggerInterface $logger)
     {
@@ -38,16 +39,16 @@ class WeatherProvider {
             }
         }
 
-        file_put_contents("/tmp/weather.json", json_encode($data, JSON_PRETTY_PRINT));
+        file_put_contents($this->dataFile, json_encode($data, JSON_PRETTY_PRINT));
     }
 
     public function getCSV($user)
     {
-        if (!file_exists("/tmp/weather.json")) {
+        if (!file_exists($this->dataFile)) {
             return null;
         }
 
-        $data = json_decode(file_get_contents('/tmp/weather.json'));
+        $data = json_decode(file_get_contents($this->dataFile));
 
         if (!isset($data->$user)) {
             return null;

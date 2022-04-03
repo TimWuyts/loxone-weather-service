@@ -24,6 +24,7 @@ class ForecastController extends AbstractController
         $locationProvider->setCoordinates($user, $lat, $lon, $asl);
 
         $weather = $weatherProvider->getCSV($user);
+
         if (!$weather) {
             $weatherProvider->updateCache();
             $weather = $weatherProvider->getCSV($user);
