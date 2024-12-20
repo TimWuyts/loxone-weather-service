@@ -34,6 +34,10 @@ class ForecastController extends AbstractController
             return new Response($weather);
         }
 
+        if ($format && $format == 2) { 
+            return new Response($weather);
+        }
+
         throw $this->createNotFoundException();
     }
 }
